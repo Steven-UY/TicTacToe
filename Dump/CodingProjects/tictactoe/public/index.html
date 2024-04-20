@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TicTacToe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+<body class="bg-[#10100E] text-[#FFFFE3] text-8xl font-archivo m-0 leading-normal">
+  <div id="header" class="relative w-full h-screen overflow-hidden">
+    <b class="absolute top-[0px] left-[480px]">TicTacToe</b>
+  </div>
+  <div id="gridWrapper" class="absolute top-[-50px]">
+    <div class="absolute top-[226.5px] left-[642.5px] w-px h-[455px] border-r-[5px] border-[#FFFFE3] box-border"></div>
+    <div class="absolute top-[526.5px] left-[492.5px] w-[455px] h-px border-t-[5px] border-[#FFFFE3] box-border"></div>
+    <div class="absolute top-[376.5px] left-[492.5px] w-[455px] h-px border-t-[5px] border-[#FFFFE3] box-border"></div>
+    <div class="absolute top-[226.5px] left-[792.5px] w-px h-[455px] border-r-[5px] border-[#FFFFE3] box-border"></div>
+    <button class="absolute top-[226.5px] left-[492.5px] w-[150px] h-[150px] bg-transparent"></button>
+    <button class="absolute top-[226.5px] left-[642.5px] w-[150px] h-[150px] bg-transparent"></button>
+    <button class="absolute top-[226.5px] left-[792.5px] w-[150px] h-[150px] bg-transparent"></button>
+    <button class="absolute top-[376.5px] left-[492.5px] w-[150px] h-[150px] bg-transparent"></button>
+    <button class="absolute top-[376.5px] left-[642.5px] w-[150px] h-[150px] bg-transparent"></button>
+    <button class="absolute top-[376.5px] left-[792.5px] w-[150px] h-[150px] bg-transparent"></button>
+    <button class="absolute top-[526.5px] left-[492.5px] w-[150px] h-[150px] bg-transparent"></button>
+    <button class="absolute top-[526.5px] left-[642.5px] w-[150px] h-[150px] bg-transparent"></button>
+    <button class="absolute top-[526.5px] left-[792.5px] w-[150px] h-[150px] bg-transparent"></button>
+  </div>
+  <div id="scoreline" class="flex justify-between items-center px-4 py-6 absolute left-[492.5px] top-[650.5px] w-[450px] font-archivo">
+    <div class="text text-base">win 0</div>
+    <div class="text text-base">tie 0</div>
+    <div class="text text-base font-archivo">loss 0</div>
+  </div>  
+</body>
+</html>
