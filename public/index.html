@@ -8,7 +8,41 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="output.css">
     </head>
-    <body>
-        <h1 class="bg-red-600">Hello Tailwind</h1>
+    <body class="bg-black text-custom-yellow">
+        <div id="main-page" class="flex flex-col items-center justify-center h-screen">
+            <div id="gamemode" class="flex flex-row justify-between pb-20">
+                <button class="mr-40">
+                    <b class="text-lg">SinglePlayer</b>
+                </button>
+                <button>
+                    <b class="text-lg">Multiplayer</b>
+                </button>
+            </div>
+            <div id="board" class="grid grid-cols-3 rows-3 gap-0">
+                <button class="w-32 h-32 flex items-center justify-center border-r-4 border-b-4 border-solid border-custom-yellow"></button>
+                <button class="w-32 h-32 flex items-center justify-center border-r-4 border-b-4 border-solid border-custom-yellow"></button>
+                <button class="w-32 h-32 flex items-center justify-center border-b-4 border-solid border-custom-yellow"></button>
+                <button class="w-32 h-32 flex items-center justify-center border-r-4 border-b-4 border-solid border-custom-yellow"></button>
+                <button class="w-32 h-32 flex items-center justify-center border-r-4 border-b-4 border-solid border-custom-yellow"></button>
+                <button class="w-32 h-32 flex items-center justify-center border-b-4 border-solid border-custom-yellow"></button>
+                <button class="w-32 h-32 flex items-center justify-center border-r-4 border-solid border-custom-yellow"></button>
+                <button class="w-32 h-32 flex items-center justify-center border-r-4 border-solid border-custom-yellow"></button>
+                <button class="w-32 h-32 flex items-center justify-center border-solid border-custom-yellow"></button>
+            </div>
+            <div id="scoreline" class="flex flex-row justify-between mt-10">
+                <div class="flex flex-col items-center">
+                    <div class="text-lg mr-20">WIN</div>
+                    <div class="text-xl mr-20"><b>0</b></div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-lg">TIE</div>
+                    <div class="text-xl"><b>0</b></div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-lg ml-20">LOSS</div>
+                    <div class="text-xl ml-20"><b>0</b></div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
