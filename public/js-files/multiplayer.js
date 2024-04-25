@@ -9,3 +9,4 @@ export function initMultiPlayer(){
     singlePlayerButton.disabled = false;
     singlePlayerButton.style.opacity = '1.0';
 }
+

@@ -1,6 +1,7 @@
 import { initSinglePlayer } from "./singleplayer.js"; //import from singleplayer.js file 
 import { initMultiPlayer} from "./multiplayer.js";
 
+//
 let currentPlayer = 'X';
 
 export function initGame(){
@@ -24,6 +25,7 @@ function clickCell(event){ //an event object is automatically generated to ident
     }
 }
 
+
     document.addEventListener('DOMContentLoaded', function(){
         initSinglePlayer();
         const cells = document.querySelectorAll('#board button');//defines cells as all the possible buttons on the board 
@@ -32,10 +34,10 @@ function clickCell(event){ //an event object is automatically generated to ident
         }
 
         const multiplayerButton = document.getElementById('multiPlayerBtn');
-        multiplayerButton.addEventListener('click', initMultiPlayer);
+        multiplayerButton.addEventListener('click', initMultiPlayer); //we get the id of mt button and when we click initMultiplayer function occurs
 
-        const singlePlayerButton = document.getElementById('singlePlayerBtn');
-        singlePlayerButton.addEventListener('click', initSinglePlayer);
+        const singlePlayerButton = document.getElementById('singlePlayerBtn'); 
+        singlePlayerButton.addEventListener('click', initSinglePlayer); //we do practically the same thing here as above but for singleplayer
     });
 }
 
