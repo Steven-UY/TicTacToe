@@ -1,0 +1,29 @@
+
+ Step-by-step Trace of miniMax:
+AI's Turn (Maximizing)
+AI tries placing 'O' in the empty spots (indexes 5, 6, 7).
+First Move: Place 'O' at index 5
+Board becomes: ['X', 'O', 'X', 'O', 'X', 'O', '-', '-', 'O']
+Evaluate the board: no winner yet.
+Call minimax recursively to simulate the Human's response.
+Human's Turn (Minimizing, index 5 filled)
+Human has options to place 'X' at index 6 or 7.
+Tries index 6: Board becomes: ['X', 'O', 'X', 'O', 'X', 'O', 'X', '-', 'O']
+Evaluate: no winner.
+AI's turn again, places 'O' at index 7 (only move left).
+Board: ['X', 'O', 'X', 'O', 'X', 'O', 'X', 'O', 'O']
+Evaluate: AI wins with a vertical line through the third column.
+Minimax returns a score of +10 for AI (win).
+Backtrack and Try Other Moves
+Undo previous moves, try next human option (index 7 without filling index 6):
+['X', 'O', 'X', 'O', 'X', 'O', '-', 'X', 'O']
+Evaluate: no winner.
+AI's turn, only one spot left at index 6.
+['X', 'O', 'X', 'O', 'X', 'O', 'O', 'X', 'O']
+Evaluate: no win, the game ends in a draw (score of 0).
+Evaluate Best Option
+From the AI's perspective, placing 'O' at index 5 resulted in scenarios:
+Win (score +10) when Human chooses poorly.
+Draw (score 0) for the best Human response.
+AI chooses the move with the highest score from these simulations, which is index 5 leading to a potential win.
+ 
