@@ -5,7 +5,7 @@ export function initSinglePlayer(){
     console.log("single player mode started")
 
     //this evaluates whether we have reached a winning condition or if the game just end in a draw  
-    function evaluateBoard(board){
+    function evaluateBoard(board) {
         const winningConditions = [
             [0, 1, 2], // Top Row
             [3, 4, 5], // Middle Row
@@ -14,26 +14,30 @@ export function initSinglePlayer(){
             [1, 4, 7], // Center Column
             [2, 5, 8], // Right Column
             [0, 4, 8], // Diagonal from top-left to bottom-right
-            [2, 4, 6], // Diagonal from top-right to bottom-left
-        ]
-        for (let i = 0; i < winningConditions.length; i++){ //looping through each possible winning outcome
-            const[a, b, c] = winningConditions[i]; //destructuring assignment, used to unpack array into individual variables a, b, c 
-            if (board[a] && board[a] === board[b] && board[a] === board[c]){ //each cell has all x or all o
-                if (board[a] === 'AI'){
-                    return 10; //AI wins 
-                } else if (board[a] === 'Human'){
-                    return -10; //Human wins
+            [2, 4, 6]  // Diagonal from top-right to bottom-left
+        ];
+    
+        for (let i = 0; i < winningConditions.length; i++) {
+            const [a, b, c] = winningConditions[i];
+            if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                if (board[a] === 'X') {
+                    return 10; // AI wins
+                } else if (board[a] === 'O') {
+                    return -10; // Human wins
                 }
             }
         }
-        //this determines draw i.e if all cells are filled in by something we return 0
-        if (board.every(function(cell){
-            return cell !== '';
-        })) {
-            return 0; //Draw
+    
+        // Check for a draw - if all cells are filled and no winner
+        if (board.every(function(cell) { return cell !== ''; })) {
+            console.log("this is a draw")
+            return 0; // Draw
         }
-        return null; //Game is still in progress
+
+        return null; // Game is still in progress
     }
+
+    evaluateBoard();
 
 //minimax figures out what the most efficient next move is 
     function minimax(board, depth, isMaximizing){
@@ -44,7 +48,7 @@ export function initSinglePlayer(){
             let bestScore = -Infinity; //set this to be an impossibly low value so that it has to be overwritten in Math.max()
             for (let i = 0; i < board.length; i++) {
                 if (board[i] === '') {  // Assuming empty cells are ''
-                    board[i] = 'AI';  // AI tries out a specific move given board 
+                    board[i] = 'O';  // AI tries out a specific move given board 
                     let score = minimax(board, depth + 1, false); //evaluates what the best move for human is, depth + 1 indicates progression further in game state
                     board[i] = '';  // undo move to backtrack and explore other scenarios 
                     bestScore = Math.max(score, bestScore);//compares the score of this move to the previous move that has the maximum points and picks the larger one to be bestScore
@@ -56,9 +60,9 @@ export function initSinglePlayer(){
             let bestScore = Infinity;
             for (let i = 0; i < board.length; i++) {
                 if (board[i] === '') {
-                    board[i] = 'Human';  // human tries out specific move 
+                    board[i] = 'X';  // human tries out specific move 
                     let score = minimax(board, depth + 1, true); //plays like what the AI would do(in theory)
-                    board[i] = '';  // undo move to backtrack to explore other scenarios 
+                    board[i] = '';  // undo move to backtrack to explore other scenarios
                     bestScore = Math.min(score, bestScore);//compares the score of this move to the previous move that has the minimum points and picks the smaller one to be bestScore
                 }
             }
@@ -115,6 +119,7 @@ export function initSinglePlayer(){
     });
 }
 
+    //button functionalities 
     const singlePlayerButton = document.getElementById('singlePlayerBtn');
     singlePlayerButton.disabled = true;  // Disable the button
     singlePlayerButton.style.opacity = '0.6';  // Change background color to gray

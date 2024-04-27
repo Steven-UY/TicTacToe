@@ -2,7 +2,32 @@ import { initSinglePlayer } from "./singleplayer.js"; //import from singleplayer
 import { initMultiPlayer} from "./multiplayer.js";
 export { togglePlayer, currentPlayer, initGame };
 //
-let currentPlayer = 'X';
+let gameState = {
+    board: new Array(9).fill(''),
+    currentPlayer: 'X',
+    gameOver: false
+};
+
+function setupBoard() {
+    var cells = document.querySelectorAll('#board button span');
+
+    // Initialize the text in each cell using a for loop
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].textContent = ''; // Clear the cell for a new game
+    }
+
+    // Setup initial state
+    gameState.board.fill('');
+    gameState.gameOver = false;
+    updateCurrentPlayerDisplay();
+}
+
+function updateCurrentPlayerDisplay() {
+    var cells = document.querySelectorAll('#board button span');
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].textContent = gameState.board[i]; // Synchronize each cell's display with the game state
+    }
+}
 
 function togglePlayer() {
     if (currentPlayer === 'X'){
