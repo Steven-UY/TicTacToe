@@ -1,4 +1,4 @@
-import { togglePlayer, currentPlayer } from "./game.js";
+//import { togglePlayer, currentPlayer } from "./game.js";
 
 export function initSinglePlayer(){
     //check in console to confirm that function is running 
