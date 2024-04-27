@@ -1,38 +1,22 @@
 import { initSinglePlayer } from "./singleplayer.js"; //import from singleplayer.js file 
 import { initMultiPlayer} from "./multiplayer.js";
-
+export { togglePlayer, currentPlayer, initGame };
 //
 let currentPlayer = 'X';
 
-export function initGame(){
 function togglePlayer() {
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X'; //ternary operator(shorthand for if-else) ? is true case : false case i.e if X then O else O then X  
+    if (currentPlayer === 'X'){
+        console.log("player change to O")
+        currentPlayer = 'O';
+    } else{
+        console.log("player change to X")
+        currentPlayer = 'X';
+    }
 };
 
-function clickCell(event){ //an event object is automatically generated to identify trigger of event
-    const cell = event.target; //.target identifies which HTML elemnent triggers it  
-    const span = cell.querySelector('span'); //targets span element within cell
-    if (span.textContent === ''){
-        if(currentPlayer === 'X'){
-            span.textContent = 'X';
-            span.classList.add('text-custom-yellow');
-        }
-        else{
-            span.textContent = 'O';
-            span.classList.add('text-custom-yellow');
-        }
-        togglePlayer();
-    }
-}
-
-
+ function initGame(){
+    initSinglePlayer();
     document.addEventListener('DOMContentLoaded', function(){
-        initSinglePlayer();
-        const cells = document.querySelectorAll('#board button');//defines cells as all the possible buttons on the board 
-        for (let i = 0; i < cells.length; i++) { //loop through all the possible cells
-            cells[i].addEventListener('click', clickCell);
-        }
-
         const multiplayerButton = document.getElementById('multiPlayerBtn');
         multiplayerButton.addEventListener('click', initMultiPlayer); //we get the id of mt button and when we click initMultiplayer function occurs
 

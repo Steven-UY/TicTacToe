@@ -1,3 +1,5 @@
+import { togglePlayer, currentPlayer } from "./game.js";
+
 export function initSinglePlayer(){
     //check in console to confirm that function is running 
     console.log("single player mode started")
@@ -64,62 +66,54 @@ export function initSinglePlayer(){
         }
     }
 
-
+    //computer goes through the actions of actually making the move here
+    
     function computerMove(){
-        const cells = document.querySelectorAll('#board button');
-        let board = Array.from(cells, function(cell){
-            return cell.querySelector('span').textContent || '';
+        const cells = document.querySelectorAll('#board button'); //Selects all the button elements within the board 
+        let board = Array.from(cells, function(cell){ //Array.from() method creates a new, shallow-copied array instance from an array-like or iterable object, we perform function(cell) on each cell in array 
+            return cell.querySelector('span').textContent || ''; //this gets all nested 'span' element in the button, texContent(returns X or O) or just an empty cell
         });
-        let bestScore = -Infinity;
-        let bestMove;
+        let bestScore = -Infinity; //ensures that the first score evaluated will become the best score  
+        let bestMove; //define a variable called bestMove 
 
-        board.forEach(function(cell, index){
-            if (cell === ''){
-                board[index] = '0';
-                let score = minimax(board, 0, false);
-                board[index] = '';
+        //This goes through every possible move we can make 
+        for (let index = 0; index < board.length; index++){
+            if (board[index] === ''){ //represents a cell where a move can be made
+                board[index] = 'O'; //simulate making the move 
+                let score = minimax(board, 0, false); //we call the minimax function, it will return what the best move will be, going down from  
+                board[index] = ''; //undo the move  
 
-                if (score > bestScore) {
+                if(score > bestScore){
                     bestScore = score;
-                    bestMove = index;
+                    bestMove = index;//index refers to the best cell in the grid 
                 }
             }
-        });
-        if (bestMove !== undefined) {
-            cells[bestMove].querySelector('span').textContent = '0';
+        }
+        //This block finishes the action of placing the O on the board 
+        if (bestMove !== undefined) { //undefined would be in the case that all cells have been filled up 
+            cells[bestMove].querySelector('span').textContent = 'O';
             cells[bestMove].querySelector('span').classList.add('text-custom-yellow');
             togglePlayer();
         }
     }
-
+  
+    //the player picks what cell they want to select they are X 
     var cells = document.querySelectorAll('#board button');
-    for (var i = 0; i < cells.length; i++){
-        cells[i].addEventListener('click', function(event){
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].addEventListener('click', function(event) {
+        if (currentPlayer === 'X') {
             var span = event.target.querySelector('span');
-            if(span.textContent === ''){
+            if (span.textContent === '') {
                 span.textContent = 'X';
                 span.classList.add('text-custom-yellow');
                 togglePlayer();
+                if (currentPlayer === 'O'){
+                    setTimeout(computerMove, 100);
+                }
             }
-        })
-    }
-
-    function checkGameState() {
-        let board = Array.from(document.querySelectorAll('#board button'), cell => cell.querySelector('span').textContent || '');
-        let score = evaluateBoard(board);
-        if (score !== null) {
-            if (score === 10) {
-                alert("AI Wins!");
-            } else if (score === -10) {
-                alert("Human Wins!");
-            } else if (score === 0) {
-                alert("It's a Draw!");
-            }
-            resetGame(); // Reset the board for a new game
-            return true; // Game over
         }
-        return false; // Game continues
-    }
+    });
+}
 
     const singlePlayerButton = document.getElementById('singlePlayerBtn');
     singlePlayerButton.disabled = true;  // Disable the button
