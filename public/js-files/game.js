@@ -36,31 +36,29 @@ function setupBoard() {
     console.log("board setup");
 }
 
-function checkWin(board, player){
-    let plays = board.reduce((array ,element, index) =>{
-        if (element === player){
-            array = array.concat(index);
+function checkWin(board, player) {
+    let plays = board.reduce((array, element, index) => {
+        if (element === player) {
+            array.push(index);  // Use push instead of concat for single elements
         }
         return array;
     }, []);
     let gameWon = null;
-    //Here we check if any of the win combos match player moves
-    for (let [index, win] of winCombos.entries()){
-        if (win.every(elem => plays.indexOf(elem) > -1)) {
+
+    // Check if any of the win combos match player moves
+    for (let [index, win] of winCombos.entries()) {
+        if (win.every(elem => plays.includes(elem))) {  // Using includes for readability
             gameWon = {index: index, player: player};
-            console.log("game won!");
-            break; 
+            console.log(`Player ${player} wins!`);
+            gameState.gameOver = true;
+            break;
         }
     }
     return gameWon;
 }
 
-function checkLoss(){
-
-}
-
 function checkTie(){
-
+    
 }
 
 function togglePlayer() {
@@ -74,18 +72,27 @@ function togglePlayer() {
 };
 
 function handleClickEvent(event){
-    //find index of clicked button
+    // Find the index of the clicked button
     const index = Array.from(buttons).indexOf(event.target);
 
-    if (gameState.board[index] === '' && !gameState.gameOver && gameState.currentPlayer === 'X'){
-        gameState.board[index] = 'X';
+    // Check if the selected cell is empty, the game is not over, and it's the current player's turn
+    if (gameState.board[index] === '' && !gameState.gameOver){
+        gameState.board[index] = gameState.currentPlayer;  // Place the current player's marker
         updateBoardState();
-        console.log("X placed at position", index);
+        console.log(`${gameState.currentPlayer} placed at position`, index);
         console.log(gameState.board);
-        //togglePlayer();
-        checkWin(gameState.board, gameState.currentPlayer);
+        
+        // Check for a win after placing the marker
+        const win = checkWin(gameState.board, gameState.currentPlayer);
+        if (win) {
+            console.log(`${gameState.currentPlayer} wins!`);
+            gameState.gameOver = true;  // Mark the game as over
+            // Additional code to handle the end of the game can be added here
+        } else {
+            togglePlayer();  // Only toggle the player if no win is found
+        }
     } else{
-        console.log("choose another cell");
+        console.log("Cell already occupied or game over. Choose another cell.");
         console.log(gameState.board);
     }
 }
