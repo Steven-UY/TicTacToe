@@ -21,12 +21,13 @@ let gameState = {
     gameOver: false
 };
 
+
 function setupBoard() {
     // Initialize the text in each cell using a for loop
     for (var i = 0; i < cells.length; i++) {
         cells[i].textContent = ''; // Clear the cell for a new game
-        buttons[i].removeEventListener('click', handleCellClick); //remove any duplicates
-        buttons[i].addEventListener('click', handleCellClick);
+        buttons[i].removeEventListener('click', handleClickEvent); //remove any duplicates
+        buttons[i].addEventListener('click', handleClickEvent); //add event listener 
     }
     // Setup initial state
     gameState.board.fill('');
@@ -35,25 +36,31 @@ function setupBoard() {
     console.log("board setup");
 }
 
-//synchronize the game state to the html representation 
-function updateBoardState() {
-    var cells = document.querySelectorAll('#board button span');
-    for (var i = 0; i < cells.length; i++) {
-        cells[i].textContent = gameState.board[i]; // Synchronize each cell's display with the game state
+function checkWin(board, player){
+    let plays = board.reduce((array ,element, index) =>{
+        if (element === player){
+            array = array.concat(index);
+        }
+        return array;
+    }, []);
+    let gameWon = null;
+    //Here we check if any of the win combos match player moves
+    for (let [index, win] of winCombos.entries()){
+        if (win.every(elem => plays.indexOf(elem) > -1)) {
+            gameWon = {index: index, player: player};
+            console.log("game won!");
+            break; 
+        }
     }
+    return gameWon;
 }
 
-function handleCellClick(event){
-    //find index of clicked button
-    const index = Array.from(buttons).indexOf(event.target);
+function checkLoss(){
 
-    if (gameState.board[index] === '' && !gameState.gameOver){
-        gameState.board[index] = 'X';
-        updateBoardState();
-        console.log("X placed at position", index);
-    } else{
-        console.log("choose another cell");
-    }
+}
+
+function checkTie(){
+
 }
 
 function togglePlayer() {
@@ -65,6 +72,32 @@ function togglePlayer() {
         gameState.currentPlayer = 'X';
     }
 };
+
+function handleClickEvent(event){
+    //find index of clicked button
+    const index = Array.from(buttons).indexOf(event.target);
+
+    if (gameState.board[index] === '' && !gameState.gameOver && gameState.currentPlayer === 'X'){
+        gameState.board[index] = 'X';
+        updateBoardState();
+        console.log("X placed at position", index);
+        console.log(gameState.board);
+        //togglePlayer();
+        checkWin(gameState.board, gameState.currentPlayer);
+    } else{
+        console.log("choose another cell");
+        console.log(gameState.board);
+    }
+}
+
+//synchronize the game state to the html representation 
+function updateBoardState() {
+    var cells = document.querySelectorAll('#board button span');
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].textContent = gameState.board[i]; // Synchronize each cell's display with the game state
+    }
+}
+
 
  function initGame(){
     setupBoard();
