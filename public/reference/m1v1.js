@@ -1,5 +1,5 @@
-export function initSinglePlayer(){
-    console.log("singleplayer mode started")
+export function initMultiPlayer(){
+    console.log("multiplayer mode started")
 
     const multiPlayerButton = document.getElementById('multiPlayerBtn');
     multiPlayerButton.disabled = true; // Disable the button
@@ -9,3 +9,4 @@ export function initSinglePlayer(){
     singlePlayerButton.disabled = false;
     singlePlayerButton.style.opacity = '1.0';
 }
+

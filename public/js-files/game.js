@@ -1,7 +1,4 @@
-import { initSinglePlayer } from "./singleplayer.js"; //import from singleplayer.js file 
-import { initMultiPlayer} from "./multiplayer.js";
-//export { togglePlayer, initGame, setupBoard, gameState, updateBoardState };
-export {initGame};
+export { togglePlayer, setupBoard, gameState, updateBoardState,  };
 var cells = document.querySelectorAll('#board button span');
 var buttons = document.querySelectorAll('#board button');
 const winCombos = [
@@ -49,16 +46,18 @@ function checkWin(board, player) {
     for (let [index, win] of winCombos.entries()) {
         if (win.every(elem => plays.includes(elem))) {  // Using includes for readability
             gameWon = {index: index, player: player};
-            console.log(`Player ${player} wins!`);
-            gameState.gameOver = true;
             break;
         }
     }
     return gameWon;
 }
 
-function checkTie(){
-    
+function checkTie(board){
+    let gameTie = null;
+    if (board.every(cell => cell !== '')){
+        gameTie = true;
+    }
+    return gameTie; 
 }
 
 function togglePlayer() {
@@ -71,50 +70,12 @@ function togglePlayer() {
     }
 };
 
-function handleClickEvent(event){
-    // Find the index of the clicked button
-    const index = Array.from(buttons).indexOf(event.target);
-
-    // Check if the selected cell is empty, the game is not over, and it's the current player's turn
-    if (gameState.board[index] === '' && !gameState.gameOver){
-        gameState.board[index] = gameState.currentPlayer;  // Place the current player's marker
-        updateBoardState();
-        console.log(`${gameState.currentPlayer} placed at position`, index);
-        console.log(gameState.board);
-        
-        // Check for a win after placing the marker
-        const win = checkWin(gameState.board, gameState.currentPlayer);
-        if (win) {
-            console.log(`${gameState.currentPlayer} wins!`);
-            gameState.gameOver = true;  // Mark the game as over
-            // Additional code to handle the end of the game can be added here
-        } else {
-            togglePlayer();  // Only toggle the player if no win is found
-        }
-    } else{
-        console.log("Cell already occupied or game over. Choose another cell.");
-        console.log(gameState.board);
-    }
-}
-
 //synchronize the game state to the html representation 
 function updateBoardState() {
     var cells = document.querySelectorAll('#board button span');
     for (var i = 0; i < cells.length; i++) {
-        cells[i].textContent = gameState.board[i]; // Synchronize each cell's display with the game state
+        cells[i].textContent = gameState.board[i]; // Synchronize each cell's display with the game state 
     }
-}
-
-
- function initGame(){
-    setupBoard();
-    document.addEventListener('DOMContentLoaded', function(){
-        const multiplayerButton = document.getElementById('multiPlayerBtn');
-        multiplayerButton.addEventListener('click', initMultiPlayer); //we get the id of mt button and when we click initMultiplayer function occurs
-
-        const singlePlayerButton = document.getElementById('singlePlayerBtn'); 
-        singlePlayerButton.addEventListener('click', initSinglePlayer); //we do practically the same thing here as above but for singleplayer
-    });
 }
 
 
