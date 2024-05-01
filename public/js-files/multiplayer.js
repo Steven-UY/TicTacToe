@@ -9,11 +9,10 @@ function setupBoardMulti() {
     gameState.board.fill('');
     gameState.gameOver = false;
     updateBoardState();
-    console.log("board setup");
+    console.log("multi board setup");
 }
 
 function handleClickEvent(event) {
-    const buttons = document.querySelectorAll('#board button');
     const index = Array.from(buttons).indexOf(event.target);
 
     if (gameState.board[index] === '' && !gameState.gameOver) {
