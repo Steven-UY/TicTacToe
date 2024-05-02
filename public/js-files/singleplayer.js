@@ -83,9 +83,41 @@ function minimax(newBoard, player){
         /*collect the score resulted from calling minimax
         on the opponent of the current player*/
         if (player == aiPlayer){
-            var result 
+            var result = minimax(newBoard, huPlayer);
+            move.score = result.score;
         }
-    } 
+        else{
+            var result = minimax(newBoard, aiPlayer);
+            move.score = result.score;
+        }
+
+        // reset the spot to empty
+        newBoard[availSpots[i]] = move.index;
+
+        // push the object to the array
+        moves.push(move);
+    }
+    var bestMove;
+    if(player === aiPlayer){
+        var bestScore = -10000;
+        for(var i = 0; i < moves.length; i++){
+            if(moves[i].score > bestScore){
+                bestScore = moves[i].score;
+                bestMove = i;
+            }
+        }
+    } else{
+
+        var bestScore = 10000;
+        for(var i = 0; i < moves.length; i++){
+            if(moves[i].score < bestScore){
+                bestScore = moves[i].score;
+                bestMove = i;
+            }
+        }
+    }
+    // return the chosen move (object) from the moves array
+    return moves[bestMove];
 }
 
 function initSinglePlayer(){
