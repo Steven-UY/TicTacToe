@@ -29,7 +29,7 @@ function setupBoardSingle() {
 function handleClickEvent(event) {
     const index = Array.from(buttons).indexOf(event.target);
 
-    if (gameState.board[index] === '' && !gameState.gameOver && gameState.currentPlayer) {
+    if (gameState.board[index] === '' && !gameState.gameOver && gameState.currentPlayer === 'X') {
         gameState.board[index] = gameState.currentPlayer;
         updateBoardState(document.querySelectorAll('#board button span'), gameState);
         console.log(`${gameState.currentPlayer} placed at position ${index}`);
@@ -61,7 +61,7 @@ function minimax(newBoard, player){
     //add a returning value according to state
     if (winning(newBoard,huPlayer)){
         return {score:-10};
-    } else if (winning(newBoard, aiPLayer)){
+    } else if (winning(newBoard, aiPlayer)){
         return {score:10};
     }
     else if (availSpots.length === 0){
@@ -73,7 +73,7 @@ function minimax(newBoard, player){
 
     //loop through available spots
     for (var i = 0; i < availSpots.length; i++){
-        //create object for each object and store the index of that spot
+        //create object for each and store the index of that spot
         var move = {};
         move.index = newBoard[availSpots[i]];
 
@@ -97,6 +97,7 @@ function minimax(newBoard, player){
         // push the object to the array
         moves.push(move);
     }
+
     var bestMove;
     if(player === aiPlayer){
         var bestScore = -10000;
@@ -116,12 +117,17 @@ function minimax(newBoard, player){
             }
         }
     }
-    // return the chosen move (object) from the moves array
+    // return the chosen move (object) from the moves array 
     return moves[bestMove];
+}
+
+//Function where the computer asseses using minimax and then takes action to place to 'O' on cell 
+function computerMove(){
+
 }
 
 function initSinglePlayer(){
     setupBoardSingle();
 }
 
-export {initSinglePlayer};
+export {initSinglePlayer, minimax};
