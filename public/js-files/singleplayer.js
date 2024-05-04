@@ -1,9 +1,10 @@
 import { updateBoardState, checkWin, checkTie, gameState, togglePlayer, cells, buttons} from './common.js';
 
-//define the players
+//define the players, not sure if I should keep this could change still 
 var aiPlayer = "O";
 var huPlayer = "X";
 
+//returns the index of all empty cells
 function emptyIndexes(board){
     var emptyIndexes = [];
     for (let i = 0; i < board.length; i++){
@@ -43,8 +44,7 @@ function handleClickEvent(event) {
             gameState.gameOver = true;
         } else {
             togglePlayer();
-
-            if (gameState.currentPlayer === 'O'){
+            if (gameState.currentPlayer === 'O' && !gameState.gameOver) {
                 computerMove();
             }
         }
@@ -59,29 +59,30 @@ function minimax(newBoard, player){
 
     //check for terminal states i.e win, loss, tie
     //add a returning value according to state
-    if (winning(newBoard,huPlayer)){
+    if (checkWin(newBoard,huPlayer) !== null){
         return {score:-10};
-    } else if (winning(newBoard, aiPlayer)){
+    } else if (checkWin(newBoard, aiPlayer) !== null){
         return {score:10};
     }
     else if (availSpots.length === 0){
         return {score:0};
     }
 
-    //array to collect all objects
+    //array to collect all objects  
     var moves = [];
 
     //loop through available spots
     for (var i = 0; i < availSpots.length; i++){
         //create object for each and store the index of that spot
         var move = {};
-        move.index = newBoard[availSpots[i]];
+        move.index = availSpots[i];
 
         // set the empty spot to the current player
         newBoard[availSpots[i]] = player;
 
         /*collect the score resulted from calling minimax
         on the opponent of the current player*/
+        var result;
         if (player == aiPlayer){
             var result = minimax(newBoard, huPlayer);
             move.score = result.score;
@@ -92,13 +93,14 @@ function minimax(newBoard, player){
         }
 
         // reset the spot to empty
-        newBoard[availSpots[i]] = move.index;
+        newBoard[availSpots[i]] = '';
 
         // push the object to the array
         moves.push(move);
     }
 
-    var bestMove;
+    //if it's the computer's turn loop over the moves and choose the move with the highest score 
+    var bestMove; 
     if(player === aiPlayer){
         var bestScore = -10000;
         for(var i = 0; i < moves.length; i++){
@@ -107,8 +109,8 @@ function minimax(newBoard, player){
                 bestMove = i;
             }
         }
+    //else loop over the moves and choose the move with the lowest score  
     } else{
-
         var bestScore = 10000;
         for(var i = 0; i < moves.length; i++){
             if(moves[i].score < bestScore){
@@ -120,10 +122,19 @@ function minimax(newBoard, player){
     // return the chosen move (object) from the moves array 
     return moves[bestMove];
 }
-
-//Function where the computer asseses using minimax and then takes action to place to 'O' on cell 
+/*
+Get the index value from the object returned from minimax
+ > we place the O at the gameState.board[index of object returned]
+And then get the AI to place the O at the index
+ */
 function computerMove(){
-
+    let move = minimax(gameState.board, gameState.currentPlayer);
+    console.log(move);
+    let index = move.index;
+    console.log(index);
+    gameState.board[index] = 'O';
+    updateBoardState();
+    togglePlayer();
 }
 
 function initSinglePlayer(){

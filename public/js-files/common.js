@@ -31,6 +31,7 @@ function updateBoardState() {
     }
 }
 
+//detects wins for both players since player parameter changes 
 function checkWin(board, player){
     let plays = board.reduce((array, element, index) => {
         if (element === player){
