@@ -134,7 +134,15 @@ function computerMove(){
     console.log(index);
     gameState.board[index] = 'O';
     updateBoardState();
-    togglePlayer();
+    const win = checkWin(gameState.board, gameState.currentPlayer);
+    const tie = checkTie(gameState.board);
+    if(win){
+        gameState.gameOver = true;
+    } else if(tie) {
+        gameState.gameOver = true;
+    } else{
+        togglePlayer();
+    }
 }
 
 function initSinglePlayer(){
